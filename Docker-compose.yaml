@@ -1,6 +1,7 @@
 services:
   database:
     image: postgres
+    restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -12,11 +13,16 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin_fastapi_ex
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
     ports:
-      - "8080:80"
+      - "5050:80"
+    depends_on:
+      - database
 
-  volumes:
-    db_data:
+volumes:
+  db_data:
+    driver: local
