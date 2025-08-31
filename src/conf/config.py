@@ -15,7 +15,7 @@ class Config:
 
     DB_URL = (
         "postgresql+asyncpg://"
-        f"{os.getenv('POSTGRESS_USER')}:"
+        f"{os.getenv('POSTGRES_USER')}:"
         f"{os.getenv('POSTGRES_PASSWORD')}@"
         "localhost:5432/"
         f"{os.getenv('POSTGRES_DB')}"
@@ -33,11 +33,11 @@ class Config:
         """
         return all(
             [
-                os.getenv("POSTGRESS_USER"),
+                os.getenv("POSTGRES_USER"),
                 os.getenv("POSTGRES_PASSWORD"),
                 os.getenv("POSTGRES_DB"),
             ]
         )
 
 
-ConfigInstance = Config
+config = Config
