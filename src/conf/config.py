@@ -20,6 +20,9 @@ class Config:
         "localhost:5432/"
         f"{os.getenv('POSTGRES_DB')}"
     )
+    JWT_SECRET = os.getenv(JWT_SECRET)
+    JWT_ALGORITHM = os.getenv(JWT_ALGORITHM)
+    JWT_EXPIRATION_SECONDS = os.getenv(JWT_EXPIRATION_SECONDS)
 
     def get_db_url(self):
         """
