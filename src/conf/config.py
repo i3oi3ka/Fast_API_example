@@ -1,46 +1,15 @@
-"""
-Configuration module for database connection.
-"""
-
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
+from pydantic import ConfigDict
+from pydantic_settings import BaseSettings
 
 
-class Config:
-    """
-    Configuration class for database settings.
-    """
-
-    DB_URL = (
-        "postgresql+asyncpg://"
-        f"{os.getenv('POSTGRES_USER')}:"
-        f"{os.getenv('POSTGRES_PASSWORD')}@"
-        "localhost:5432/"
-        f"{os.getenv('POSTGRES_DB')}"
+class Settings(BaseSettings):
+    DB_URL: str
+    JWT_SECRET: str
+    JWT_ALGORITHM: str = "HS256"
+    JWT_EXPIRATION_SECONDS: int = 3600
+    model_config = ConfigDict(
+        extra="ignore", env_file=".env", env_file_encoding="utf-8", case_sensitive=True
     )
-    JWT_SECRET = os.getenv("JWT_SECRET")
-    JWT_ALGORITHM = os.getenv("JWT_ALGORITHM")
-    JWT_EXPIRATION_SECONDS = int(os.getenv("JWT_EXPIRATION_SECONDS"))
-
-    def get_db_url(self):
-        """
-        Returns the database URL.
-        """
-        return self.DB_URL
-
-    def is_configured(self):
-        """
-        Checks if all required environment variables are set.
-        """
-        return all(
-            [
-                os.getenv("POSTGRES_USER"),
-                os.getenv("POSTGRES_PASSWORD"),
-                os.getenv("POSTGRES_DB"),
-            ]
-        )
 
 
-config = Config
+settings = Settings()

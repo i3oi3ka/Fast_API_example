@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from jose import JWTError, jwt
 
 from src.database.db import get_db
-from src.conf.config import config
+from src.conf.config import settings
 from src.services.users import UserService
 
 
@@ -31,10 +31,10 @@ async def create_access_token(data: dict, expires_delta: Optional[int] = None):
     if expires_delta:
         expire = datetime.now(UTC) + timedelta(seconds=expires_delta)
     else:
-        expire = datetime.now(UTC) + timedelta(seconds=config.JWT_EXPIRATION_SECONDS)
+        expire = datetime.now(UTC) + timedelta(seconds=settings.JWT_EXPIRATION_SECONDS)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(
-        to_encode, config.JWT_SECRET, algorithm=config.JWT_ALGORITHM
+        to_encode, settings.JWT_SECRET, algorithm=settings.JWT_ALGORITHM
     )
     return encoded_jwt
 
